@@ -44,7 +44,7 @@ class Game {
         setInterval(() => {
             this.score++;
             this.scoreCount.innerText = this.score;
-        }, 500)
+        }, 600)
     }
 
 }
@@ -145,6 +145,7 @@ setInterval(() => {
         obstacleInstance.moveDown();
 
         // detect collision
+        
         if (
             player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
             player.positionX + player.width > obstacleInstance.positionX &&
@@ -152,7 +153,9 @@ setInterval(() => {
             player.positionY + player.height > obstacleInstance.positionY
         ) {
             // Collision detected!
-            //location.href = "gameover.html";
+            location.href = "gameover.html";
+            console.log("COLLISION")
+
         }
     });
 }, 30);

@@ -1,17 +1,45 @@
 body {
-    background-color: darkseagreen;
+    background-color: rgb(0, 0, 0);
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 #board {
-    width: 99vw;
-    height: 91vh;
+    width: 100vw;
+    height: 100vh;
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1000px;
+    background-color: antiquewhite;
 }
 
 #player {
     background-color: rgb(96, 119, 245);
     position: absolute;
+}
+
+.obstacle {
+    background-color: rgb(134, 241, 120);
+    position: absolute;
+}
+
+#score {
+    position: absolute;
+    top: 0;
+    margin-left: 3vw;
+    margin-top: 3vh;
+    font-size: 3em;
+}
+#lives {
+    position: absolute;
+    top: 0;
+    margin-right: 3vw;
+    margin-top: 3vh;
+    font-size: 3em;
 }

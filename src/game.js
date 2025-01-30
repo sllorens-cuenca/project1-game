@@ -4,9 +4,6 @@ class Game {
         this.score = 0;
         this.lives = 3;
 
-        // this.scoreCount = document.createElement("div");
-        // this.scoreCount.id = "score";
-        // this.board.appendChild(this.scoreCount);
         this.showScore();
         this.updateScore();
         this.showLives();
@@ -40,15 +37,6 @@ class Game {
         parentElm.appendChild(this.livesCount);
     }
 
-    decreaseLife() {
-        this.lives--;
-        this.livesCount.innerText = this.lives + " lives";
-
-        if (this.lives <= 0) {
-            location.href = "gameover.html";
-        }
-    }
-
     updateScore() {
         setInterval(() => {
             this.score++;
@@ -64,6 +52,15 @@ class Game {
     increaseLives(amount) {
         this.lives += amount;
         this.livesCount.innerText = this.lives + " lives";
+    }
+
+    decreaseLife() {
+        this.lives--;
+        this.livesCount.innerText = this.lives + " lives";
+
+        if (this.lives <= 0) {
+            location.href = "gameover.html";
+        }
     }
 
 }
@@ -149,7 +146,10 @@ class Obstacle {
         this.positionX = Math.floor(Math.random() * (50 - this.width + 1)); // random number between 0 and (100 - width)        
         this.positionY = 100;
 
+        // creating differents types of bonus
         const bonusTypes = ["scoreMult", "extraLife", "extraBonus"]
+
+        // get a random bonus
         this.bonusType = bonusTypes[Math.floor(Math.random() * bonusTypes.length)];
 
         this.createDomElement();
@@ -209,14 +209,16 @@ setInterval(() => {
             player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
             player.positionY + player.height > obstacleInstance.positionY
         ) {
-            
+
             if (obstacleInstance.bonusType === "scoreMult") {
                 game.increaseLives(1);
-                game.increaseScore(100);  // Double score or add points
+                game.increaseScore(100);  // Add 100 points
             } else if (obstacleInstance.bonusType === "extraLife") {
                 game.increaseLives(2);  // Add extra life
             }
 
+
+            //If there is a collision, decrease 1 life
             game.decreaseLife();
 
             // Remove obstacle on collision

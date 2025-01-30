@@ -41,7 +41,7 @@ class Game {
         setInterval(() => {
             this.score++;
             this.scoreCount.innerText = this.score;
-        }, 600)
+        }, 500)
     }
 
     increaseScore(amount) {
@@ -138,9 +138,10 @@ class Player {
 }
 
 class Obstacle {
-    constructor() {
+    constructor(speed) {
         this.width = 5;
         this.height = 10;
+        this.speed = speed
         this.positionX = Math.floor(Math.random() * (50 - this.width + 1)); // random number between 0 and (100 - width)        
         this.positionY = 100;
 
@@ -176,7 +177,7 @@ class Obstacle {
         parentElm.appendChild(this.obstacleElm);
     }
     moveDown() {
-        this.positionY--;
+        this.positionY -= this.speed;
         this.obstacleElm.style.bottom = this.positionY + "vh";
     }
 }
@@ -189,33 +190,45 @@ const bulletsArr = [];
 
 const obstaclesArr = [];
 
-let speedObs = 35;
+let speedObs = 50;
 
-let speedCreatingObs = 3000;
+let frame = 0
 
+let currentSpeed = 1
 
-// Increase speed of obstacles by 5 every 10 seconds
-setInterval(() => {
-    speedObs = Math.max(1, speedObs - 10); // the speed doesn't go below 5 
-    console.log("Speed is: " + speedObs)
-}, 5000);
+let speedCreatingObs = 800;
 
 
-// Increase the rating of create obstacles 
-setInterval(() => {
-    speedCreatingObs = Math.max(300, speedCreatingObs - 50); // the speed doesn't go below 5 
-    console.log("creation speed is: " + speedCreatingObs)
-}, 2500);
+// // Increase speed of obstacles by 5 every 10 seconds
+// setInterval(() => {
+//     speedObs = Math.max(1, speedObs - 10); // the speed doesn't go below 5 
+//     console.log("Speed is: " + speedObs)
+// }, 5000);
+
+
+// // Increase the rating of create obstacles 
+// setInterval(() => {
+//     speedCreatingObs = Math.max(300, speedCreatingObs - 50); // the speed doesn't go below 5 
+//     console.log("creation speed is: " + speedCreatingObs)
+// }, 2500);
 
 // create obstacles
+
 setInterval(() => {
-    const newObstacle = new Obstacle();
+    const newObstacle = new Obstacle(currentSpeed);
     obstaclesArr.push(newObstacle);
+    
 }, speedCreatingObs);
 
 // update obstacles
 setInterval(() => {
+
     obstaclesArr.forEach((obstacleInstance, i) => {
+        
+        frame += 1
+        if (frame % 200 === 0) {
+            currentSpeed += 0.1
+        }
 
         obstacleInstance.moveDown();
 

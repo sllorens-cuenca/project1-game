@@ -29,6 +29,11 @@ body {
     position: absolute;
 }
 
+.bullet {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+}
+
 #score {
     position: absolute;
     top: 0;

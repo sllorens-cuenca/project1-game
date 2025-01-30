@@ -45,9 +45,7 @@ class Game {
         this.livesCount.innerText = this.lives + " lives";
 
         if (this.lives <= 0) {
-            // Game Over logic here
-            alert("Game Over!");
-            location.href = "gameover.html"; // Or you can stop the game in other ways
+            location.href = "gameover.html";
         }
     }
 
@@ -61,7 +59,33 @@ class Game {
 }
 
 
+class Bullet {
+    constructor(positionXBullet, positionYBullet) {
+        this.width = 1;
+        this.height = 2;
+        this.positionX = positionXBullet;
+        this.positionY = positionYBullet;
 
+        this.showBullet();
+    }
+
+    showBullet() {
+        this.bulletElm = document.createElement("div");
+        this.bulletElm.className = "bullet";
+        this.bulletElm.style.width = this.width + "vw";
+        this.bulletElm.style.height = this.height + "vh";
+        this.bulletElm.style.left = this.positionX + "vw";
+        this.bulletElm.style.bottom = this.positionY + "vh";
+
+        const parentElm = document.getElementById("board");
+        parentElm.appendChild(this.bulletElm);
+    }
+
+    moveUp() {
+        this.positionY += 2.5;
+        this.bulletElm.style.bottom = this.positionY + "vh";
+    }
+}
 
 
 
@@ -141,7 +165,9 @@ const player = new Player();
 
 const game = new Game();
 
-const obstaclesArr = []; // will store instances of the class Obstacle
+const bulletsArr = [];
+
+const obstaclesArr = [];
 
 
 // create obstacles
@@ -152,7 +178,7 @@ setInterval(() => {
 
 // update obstacles
 setInterval(() => {
-    obstaclesArr.forEach((obstacleInstance) => {
+    obstaclesArr.forEach((obstacleInstance, i) => {
 
         obstacleInstance.moveDown();
 
@@ -164,14 +190,26 @@ setInterval(() => {
         ) {
             game.decreaseLife();
 
-            const index = obstaclesArr.indexOf(obstacleInstance);
-            
-            if (index > -1) {
-                obstaclesArr.splice(index, 1);
-                const obstacleElm = obstacleInstance.obstacleElm;
-                obstacleElm.parentElement.removeChild(obstacleElm); // Remove from DOM
-            }
+            // Remove obstacle on collision
+            obstaclesArr.splice(i, 1);
+            obstacleInstance.obstacleElm.remove();
         }
+
+        bulletsArr.forEach((bullet, bulletIndex) => {
+            if (
+                bullet.positionX < obstacleInstance.positionX + obstacleInstance.width &&
+                bullet.positionX + bullet.width > obstacleInstance.positionX &&
+                bullet.positionY < obstacleInstance.positionY + obstacleInstance.height &&
+                bullet.positionY + bullet.height > obstacleInstance.positionY
+            ) {
+                // Remove obstacle and bullet on collision
+                obstaclesArr.splice(i, 1);
+                bulletsArr.splice(bulletIndex, 1);
+
+                obstacleInstance.obstacleElm.remove();
+                bullet.bulletElm.remove();
+            }
+        });
     });
 }, 30);
 
@@ -184,6 +222,16 @@ document.addEventListener("keydown", (event) => {
         player.moveUp();
     } else if (event.code === "ArrowDown") {
         player.moveDown();
+    } else if (event.code === "Space") {
+
+        const bullet = new Bullet(player.positionX + player.width / 2 - 0.5, player.positionY + player.height);
+        bulletsArr.push(bullet);
+
+        const moveBullets = setInterval(() => {
+            bulletsArr.forEach((bullet, index) => {
+                bullet.moveUp();
+            });
+        }, 100);
     }
 });
 

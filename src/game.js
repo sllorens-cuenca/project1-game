@@ -56,6 +56,16 @@ class Game {
         }, 600)
     }
 
+    increaseScore(amount) {
+        this.score += amount;
+        this.scoreCount.innerText = this.score;
+    }
+
+    increaseLives(amount) {
+        this.lives += amount;
+        this.livesCount.innerText = this.lives + " lives";
+    }
+
 }
 
 
@@ -139,6 +149,9 @@ class Obstacle {
         this.positionX = Math.floor(Math.random() * (50 - this.width + 1)); // random number between 0 and (100 - width)        
         this.positionY = 100;
 
+        const bonusTypes = ["scoreMult", "extraLife", "extraBonus"]
+        this.bonusType = bonusTypes[Math.floor(Math.random() * bonusTypes.length)];
+
         this.createDomElement();
     }
     createDomElement() {
@@ -151,6 +164,14 @@ class Obstacle {
         this.obstacleElm.style.height = this.height + "vh";
         this.obstacleElm.style.left = this.positionX + "vw";
         this.obstacleElm.style.bottom = this.positionY + "vh";
+
+        // Check if it is a bonus
+
+        if (this.bonusType === "scoreMult") {
+            this.obstacleElm.style.backgroundColor = "green";
+        } else if (this.bonusType === "extraLife") {
+            this.obstacleElm.style.backgroundColor = "red";
+        }
 
         //step3: append to the dom: `parentElm.appendChild()`
         const parentElm = document.getElementById("board");
@@ -188,6 +209,14 @@ setInterval(() => {
             player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
             player.positionY + player.height > obstacleInstance.positionY
         ) {
+            
+            if (obstacleInstance.bonusType === "scoreMult") {
+                game.increaseLives(1);
+                game.increaseScore(100);  // Double score or add points
+            } else if (obstacleInstance.bonusType === "extraLife") {
+                game.increaseLives(2);  // Add extra life
+            }
+
             game.decreaseLife();
 
             // Remove obstacle on collision
@@ -228,7 +257,7 @@ document.addEventListener("keydown", (event) => {
         bulletsArr.push(bullet);
 
         const moveBullets = setInterval(() => {
-            bulletsArr.forEach((bullet, index) => {
+            bulletsArr.forEach((bullet) => {
                 bullet.moveUp();
             });
         }, 100);

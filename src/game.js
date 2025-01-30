@@ -25,7 +25,7 @@ class Game {
         const parentElm = document.getElementById("board");
         parentElm.appendChild(this.scoreCount);
     }
-    
+
     showLives() {
         // step1: create the element:
         this.livesCount = document.createElement("div");
@@ -40,6 +40,17 @@ class Game {
         parentElm.appendChild(this.livesCount);
     }
 
+    decreaseLife() {
+        this.lives--;
+        this.livesCount.innerText = this.lives + " lives";
+
+        if (this.lives <= 0) {
+            // Game Over logic here
+            alert("Game Over!");
+            location.href = "gameover.html"; // Or you can stop the game in other ways
+        }
+    }
+
     updateScore() {
         setInterval(() => {
             this.score++;
@@ -48,7 +59,7 @@ class Game {
     }
 
 }
-const score2 = new Game();
+
 
 
 
@@ -128,6 +139,8 @@ class Obstacle {
 }
 const player = new Player();
 
+const game = new Game();
+
 const obstaclesArr = []; // will store instances of the class Obstacle
 
 
@@ -139,23 +152,25 @@ setInterval(() => {
 
 // update obstacles
 setInterval(() => {
-    obstaclesArr.forEach((obstacleInstance, i, arr) => {
+    obstaclesArr.forEach((obstacleInstance) => {
 
-        // move
         obstacleInstance.moveDown();
 
-        // detect collision
-        
         if (
             player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
             player.positionX + player.width > obstacleInstance.positionX &&
             player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
             player.positionY + player.height > obstacleInstance.positionY
         ) {
-            // Collision detected!
-            location.href = "gameover.html";
-            console.log("COLLISION")
+            game.decreaseLife();
 
+            const index = obstaclesArr.indexOf(obstacleInstance);
+            
+            if (index > -1) {
+                obstaclesArr.splice(index, 1);
+                const obstacleElm = obstacleInstance.obstacleElm;
+                obstacleElm.parentElement.removeChild(obstacleElm); // Remove from DOM
+            }
         }
     });
 }, 30);

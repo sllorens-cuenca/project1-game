@@ -65,7 +65,6 @@ class Game {
 
 }
 
-
 class Bullet {
     constructor(positionXBullet, positionYBullet) {
         this.width = 1;
@@ -93,8 +92,6 @@ class Bullet {
         this.bulletElm.style.bottom = this.positionY + "vh";
     }
 }
-
-
 
 class Player {
     constructor() {
@@ -139,6 +136,7 @@ class Player {
     }
 
 }
+
 class Obstacle {
     constructor() {
         this.width = 5;
@@ -182,6 +180,7 @@ class Obstacle {
         this.obstacleElm.style.bottom = this.positionY + "vh";
     }
 }
+
 const player = new Player();
 
 const game = new Game();
@@ -190,12 +189,29 @@ const bulletsArr = [];
 
 const obstaclesArr = [];
 
+let speedObs = 35;
+
+let speedCreatingObs = 3000;
+
+
+// Increase speed of obstacles by 5 every 10 seconds
+setInterval(() => {
+    speedObs = Math.max(1, speedObs - 10); // the speed doesn't go below 5 
+    console.log("Speed is: " + speedObs)
+}, 5000);
+
+
+// Increase the rating of create obstacles 
+setInterval(() => {
+    speedCreatingObs = Math.max(300, speedCreatingObs - 50); // the speed doesn't go below 5 
+    console.log("creation speed is: " + speedCreatingObs)
+}, 2500);
 
 // create obstacles
 setInterval(() => {
     const newObstacle = new Obstacle();
     obstaclesArr.push(newObstacle);
-}, 3000);
+}, speedCreatingObs);
 
 // update obstacles
 setInterval(() => {
@@ -242,7 +258,7 @@ setInterval(() => {
             }
         });
     });
-}, 30);
+}, speedObs);
 
 document.addEventListener("keydown", (event) => {
     if (event.code === "ArrowLeft") {

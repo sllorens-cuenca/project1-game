@@ -96,12 +96,15 @@ class Bullet {
 class Player {
     constructor() {
         this.width = 5;
-        this.height = 10;
+        this.height = 15;
         this.positionX = 26 - (this.width / 2);
         this.positionY = 0;
 
 
         this.playerElm = document.getElementById("player");
+
+        this.playerElm.style.backgroundSize = "cover";
+
         this.updateUI();
     }
     updateUI() {
@@ -146,7 +149,7 @@ class Obstacle {
         this.positionY = 100;
 
         // creating differents types of bonus
-        const bonusTypes = ["scoreMult", "extraLife", "extraBonus"]
+        const bonusTypes = ["scoreMult", "extraLife", "normal"]
 
         // get a random bonus
         this.bonusType = bonusTypes[Math.floor(Math.random() * bonusTypes.length)];
@@ -167,9 +170,16 @@ class Obstacle {
         // Check if it is a bonus
 
         if (this.bonusType === "scoreMult") {
-            this.obstacleElm.style.backgroundColor = "green";
+            this.obstacleElm.style.backgroundImage = "url('../images/coin.png')";
+            this.obstacleElm.style.backgroundSize = "cover";
+            this.obstacleElm.style.height = "11vh";
         } else if (this.bonusType === "extraLife") {
-            this.obstacleElm.style.backgroundColor = "red";
+            this.obstacleElm.style.backgroundImage = "url('../images/oneUp.png')";
+            this.obstacleElm.style.backgroundSize = "cover";
+        } else if (this.bonusType === "normal") {
+            this.obstacleElm.style.backgroundImage = "url('../images/enemy.gif')";
+            this.obstacleElm.style.backgroundSize = "cover";
+            this.obstacleElm.style.height = "13vh";
         }
 
         //step3: append to the dom: `parentElm.appendChild()`

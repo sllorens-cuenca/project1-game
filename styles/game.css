@@ -4,6 +4,7 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 #board {
@@ -16,22 +17,28 @@ body {
     justify-content: center;
     align-items: center;
     max-width: 1000px;
-    background-color: antiquewhite;
+    background-image: url(../images/game.png);
 }
 
 #player {
-    background-color: rgb(96, 119, 245);
+    background-image: url(../images/player.gif);
     position: absolute;
 }
 
 .obstacle {
-    background-color: rgb(0, 0, 0);
     position: absolute;
+    /* background-image: url(../images/enemies.gif); */
+}
+
+.obstacle img {
+    height: 100vh;
+    width: 100vw;
 }
 
 .bullet {
-    background-color: rgb(184, 184, 184);
+    background-color: black;
     position: absolute;
+    border-radius: 50%;
 }
 
 #score {
@@ -41,6 +48,7 @@ body {
     margin-top: 3vh;
     font-size: 3em;
 }
+
 #lives {
     position: absolute;
     top: 0;

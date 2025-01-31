@@ -170,14 +170,15 @@ class Obstacle {
         // Check if it is a bonus
 
         if (this.bonusType === "scoreMult") {
-            this.obstacleElm.style.backgroundImage = `url(../images/coin.png)`;
+            this.obstacleElm.style.id = "#multScore"
+            this.obstacleElm.style.backgroundImage = `url(./images/coin.png)`;
             this.obstacleElm.style.backgroundSize = "cover";
             this.obstacleElm.style.height = "11vh";
         } else if (this.bonusType === "extraLife") {
-            this.obstacleElm.style.backgroundImage = `url(../images/oneUp.png)`;
+            this.obstacleElm.style.backgroundImage = `url(./images/oneUp.png)`;
             this.obstacleElm.style.backgroundSize = "cover";
         } else if (this.bonusType === "normal") {
-            this.obstacleElm.style.backgroundImage = `url(../images/enemy.gif)`;
+            this.obstacleElm.style.backgroundImage = `url(./images/enemy.gif)`;
             this.obstacleElm.style.backgroundSize = "cover";
             this.obstacleElm.style.height = "13vh";
         }

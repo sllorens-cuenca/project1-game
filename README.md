@@ -4,7 +4,9 @@ You have to survive all the time you can!
 
 ## INSTRUCTIONS
 Goal: get the maximum score surviving among the enemies.
+
 Score Boost: get the coin to an extra 100 points!
+
 One Up: get the heart to increase your life.
 
 Enemies: Avoid the wraith, if you can't, you lose.

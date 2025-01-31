@@ -177,7 +177,7 @@ class Obstacle {
             this.obstacleElm.style.backgroundImage = "url('../images/oneUp.png')";
             this.obstacleElm.style.backgroundSize = "cover";
         } else if (this.bonusType === "normal") {
-            this.obstacleElm.style.backgroundImage = "url('../images/enemy.gif')";
+            this.obstacleElm.style.backgroundImage = "url('..,,,,/images/enemy.gif')";
             this.obstacleElm.style.backgroundSize = "cover";
             this.obstacleElm.style.height = "13vh";
         }
